@@ -66,12 +66,12 @@ def laplacian_filter(image, type, constant):
                        [0,1,0]])[:,:,None]
         return kernel
     
-    def laplacian_compute(local_maxtrix, kernel, constant=constant):
+    def laplacian_compute(local_matrix, kernel, constant=constant):
         
-        h, w = local_maxtrix.shape[:2]
-        return np.sum((local_maxtrix*kernel), axis=(0,1))*constant + local_maxtrix[h//2,w//2,:]
+        #h, w = local_maxtrix.shape[:2]
+        return np.sum((local_matrix*kernel), axis=(0,1))
     
-    image = conv(image, kernel=kernel_compute(type), padding=True, key_f = laplacian_compute)
+    image = image + constant*conv(image, kernel=kernel_compute(type), padding=True, key_f = laplacian_compute)
     image /= image.max()/255.0
     
     return image
@@ -80,7 +80,7 @@ def laplacian_filter(image, type, constant):
 
 if __name__ == '__main__':
     
-    image = cv2.imread("/home/huycq1712/Code/School/DigitalImageProcessing/Week1/filter/Sharpen.png")
+    image = cv2.imread("/home/huycq1712/Code/School/Digital-Image-Processing-Course/Assignment1/Ex4/filter/Sharpen.png")
     #image = np.array(image)
     kernel = np.array([[1,1,1],
                        [1,-8,1],
@@ -98,9 +98,9 @@ if __name__ == '__main__':
     #im.save("your_file.png")
     #image /= image.max()/255.0
     
-    cv2.imwrite("mylaplasharp.png", image)
+    cv2.imwrite("mylaplasharp_3.png", image)
     kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
-    im = cv2.imread("/home/huycq1712/Code/School/DigitalImageProcessing/Week1/filter/Sharpen.png")
+    im = cv2.imread("/home/huycq1712/Code/School/Digital-Image-Processing-Course/Assignment1/Ex4/filter/Sharpen.png")
     im = cv2.filter2D(im,-1 ,kernel)
 
     cv2.imwrite("opencvlaplasharp.png", image)
